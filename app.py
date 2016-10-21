@@ -210,9 +210,15 @@ def handle_detail_msg(comment_type, meta_obj, response_obj):
                             )
         except telegram.error.BadRequest:
             print("内容格式错误，无法解析为HTML5，直接以MD格式进行解析")
-            BOT.sendMessage(chat_id=CHAT_ID, text=telegram_push_str, parse_mode=telegram.ParseMode.MARKDOWN,
-                            disable_web_page_preview=False
-                            )
+            try:
+                BOT.sendMessage(chat_id=CHAT_ID, text=telegram_push_str, parse_mode=telegram.ParseMode.MARKDOWN,
+                                disable_web_page_preview=False
+                                )
+            except telegram.error.BadRequest:
+                print("内容格式错误，无法解析为MD，直接以TEXT发送")
+                BOT.sendMessage(chat_id=CHAT_ID, text=telegram_push_str,
+                                disable_web_page_preview=False
+                                )
 
 
 def handle_message(message):
