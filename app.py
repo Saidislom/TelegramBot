@@ -51,16 +51,16 @@ global BOT
 BOT = telegram.Bot(token=str(BOT_TOKEN))
 flag = BOT.setWebhook(str(BOT_URL))
 if flag is True:
-    print("Web Hook Setup Success!")
+    leancloud.logger.debug("Web Hook Setup Success!")
 else:
-    print("Web Hook Setup Fail!")
+    leancloud.logger.error("Web Hook Setup Fail!")
 
 
 @app.route('/bot', methods=['POST', 'GET'])
 def index():
     if request.method == "POST":
         update = telegram.Update.de_json(request.get_json(force=True), BOT)
-        print("bot start!")
+        leancloud.logger.debug("bot start!")
         handle_message(update.message)
         return 'ok'
     else:
@@ -77,7 +77,7 @@ def received_duoshuo():
         msg = {
             "code": 200, "message": "success"}
         json = request.get_json()
-        print('接收到的参数为:' + str(json))
+        leancloud.logger.debug('接收到的参数为:' + str(json))
         if request.form['action'] == 'sync_log':
             del_comment()
             return jsonify(msg)
@@ -99,7 +99,7 @@ def del_comment():
     try:
         query_since_id_result = query_since_id.first()
     except LeanCloudError:
-        print("发生LeanCloudError 执行赋空操作")
+        leancloud.logger.error("发生LeanCloudError 执行赋空操作")
         query_since_id_result = None
     if query_since_id_result is None:
         since_id = '0'
@@ -125,14 +125,14 @@ def del_comment():
         json_obj = json.loads(request_list.text)
         if json_obj.get("response") is not None:
             meta_obj = json_obj.get('response')
-            print('metaObj', meta_obj)
+            leancloud.logger.debug('metaObj', meta_obj)
             if len(meta_obj) > 0:
                 if meta_obj[0] is not None and len(meta_obj[0]) > 0:
                     meta_detail = meta_obj[0]
                     if meta_detail.get('action') is not None:
                         if meta_detail.get('action') == 'create':  # 新的评论
                             # todo:新的评论
-                            print("你有新的评论")
+                            leancloud.logger.debug("你有新的评论")
                             '''
                             保存数据到leancloud
                             '''
@@ -158,12 +158,12 @@ def del_comment():
                                     comment_obj.save()
                                     handle_detail_msg("新的评论", meta_detail.get('meta'), meta_detail)
                 else:
-                    print("内部严重错误！")
+                    leancloud.logger.error("内部严重错误！")
                     return
             else:
-                print("response 长度为0，跳过发送执行")
+                leancloud.logger.info("response 长度为0，跳过发送执行")
     else:
-        print("网络请求失败！")
+        leancloud.logger.error("网络请求失败！")
 
 
 def handle_detail_msg(comment_type, meta_obj, response_obj):
@@ -178,12 +178,12 @@ def handle_detail_msg(comment_type, meta_obj, response_obj):
         try:
             query_result = query.first()
         except LeanCloudError:
-            print('服务器没有保存当前绑定的CHAT_ID,将不会发送推送消息')
+            leancloud.logger.info('服务器没有保存当前绑定的CHAT_ID,将不会发送推送消息')
             return
         if query_result is not None and query_result.get('chat_id') is not None:
             CHAT_ID = query_result.get('chat_id')
         else:
-            print('服务器没有保存当前绑定的CHAT_ID,将不会发送推送消息')
+            leancloud.logger.info('服务器没有保存当前绑定的CHAT_ID,将不会发送推送消息')
             return
 
     if meta_obj is not None:  # detail info
@@ -209,13 +209,13 @@ def handle_detail_msg(comment_type, meta_obj, response_obj):
                             disable_web_page_preview=False
                             )
         except telegram.error.BadRequest:
-            print("内容格式错误，无法解析为HTML5，直接以MD格式进行解析")
+            leancloud.logger.error("内容格式错误，无法解析为HTML5，直接以MD格式进行解析")
             try:
                 BOT.sendMessage(chat_id=CHAT_ID, text=telegram_push_str, parse_mode=telegram.ParseMode.MARKDOWN,
                                 disable_web_page_preview=False
                                 )
             except telegram.error.BadRequest:
-                print("内容格式错误，无法解析为MD，直接以TEXT发送")
+                leancloud.logger.error("内容格式错误，无法解析为MD，直接以TEXT发送")
                 BOT.sendMessage(chat_id=CHAT_ID, text=telegram_push_str,
                                 disable_web_page_preview=False
                                 )
