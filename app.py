@@ -31,7 +31,7 @@ TGChat = leancloud.Object.extend('Chat')
 CHAT_ID = None
 IS_USE_SYSTEM_VARIABLE = app.config['IS_USE_SYSTEM_VARIABLE']
 if IS_USE_SYSTEM_VARIABLE is True:
-    BOT_TOKEN = app.config['DO_TELEGRAM_BOT_TOKEN']
+    BOT_TOKEN = os.environ['DO_TELEGRAM_BOT_TOKEN']
     BOT_URL = os.environ['DO_TELEGRAM_BOT_URL']
     BOT_NAME = os.environ['DO_TELEGRAM_BOT_NAME']
     AUTHOR_ID = os.environ['DO_DS_ID']
