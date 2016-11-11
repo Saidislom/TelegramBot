@@ -93,6 +93,20 @@ def lean():
     return "ok"
 
 
+@app.route('/mps', methods=['POST'])
+def receive_push():
+    global CHAT_ID
+    if request.method == 'POST':
+        print(request.form)
+        msg = {
+            "code": 200, "message": "success"}
+        json = request.get_json()
+        leancloud.logger.debug('接收到的参数为:' + str(json))
+        if CHAT_ID is not None:
+            BOT.sendMessage(chat_id=CHAT_ID, text=json['msg'])
+        return jsonify(msg)
+
+
 def del_comment():
     query_since_id = Comment.query
     query_since_id.not_equal_to('user_id', AUTHOR_ID)
