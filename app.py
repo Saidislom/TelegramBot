@@ -97,7 +97,7 @@ def lean():
 def receive_push():
     global CHAT_ID
     if request.method == 'POST':
-        print(request.form)
+        print(request.json, CHAT_ID)
         msg = {
             "code": 200, "message": "success"}
         json = request.get_json()
