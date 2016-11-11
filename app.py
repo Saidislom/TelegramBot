@@ -104,6 +104,23 @@ def receive_push():
         leancloud.logger.debug('接收到的参数为:' + str(json))
         if CHAT_ID is not None:
             BOT.sendMessage(chat_id=CHAT_ID, text=json['msg'])
+        else:
+            global CHAT_ID
+            if CHAT_ID is None:
+                query = TGChat.query
+                query.equal_to('telegram_flag', 'Doublemine')
+                try:
+                    query_result = query.first()
+                except LeanCloudError:
+                    leancloud.logger.info('服务器没有保存当前绑定的CHAT_ID,将不会发送推送消息')
+                    return
+                if query_result is not None and query_result.get('chat_id') is not None:
+                    CHAT_ID = query_result.get('chat_id')
+                else:
+                    leancloud.logger.info('服务器没有保存当前绑定的CHAT_ID,将不会发送推送消息')
+                    return
+            BOT.sendMessage(chat_id=CHAT_ID, text=json['msg'])
+
         return jsonify(msg)
 
 
