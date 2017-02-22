@@ -16,21 +16,18 @@
 
 能够实现用户评论博客文章时，Telegram自动push消息通知。
 
-
 ### 配置
 
-#### 经济型:
 
- - Fork 此项目或者Clone一份源码到本地，打开`default_config.py`，填入相关参数。
- - 将修改后的项目提交并push到github你自己的仓库中。
- - 注册一个[LeanCloud帐号](https://leancloud.cn/) 并切换到`美国节点`再创建一个应用，使用其中的云引擎部署，填入你自己的github地址部署完成即可。
- - 在LeanCloud云引擎设置中设定一个web主机名
- - 打开多说后台配置，在`工具`--`反向同步`--`本地服务器Api地址`中填入你的`Web主机名/ds`,例如:https://doublemine.avosapps.us/ds
- - 打开你创建的Telegram Bot 聊天界面，输入你的多说`Short Name`或者`/bind`完成多说评论推送绑定到你当前的Telegram账户。至此配置就完成了。
 
- #### 土豪型
+- Fork 此项目或者Clone一份源码到本地，打开`default_config.py`，填入相关参数。
+- 将修改后的项目提交并push到github你自己的仓库中。
+- 注册一个[LeanCloud帐号](https://leancloud.cn/) 并切换到`美国节点`再创建一个应用，使用其中的云引擎部署，填入你自己的github地址部署完成即可。
+- 在LeanCloud云引擎设置中设定一个web主机名
+- 打开多说后台配置，在`工具`--`反向同步`--`本地服务器Api地址`中填入你的`Web主机名/ds`,例如:https://doublemine.avosapps.us/ds
+- 打开你创建的Telegram Bot 聊天界面，输入你的多说`Short Name`或者`/bind`完成多说评论推送绑定到你当前的Telegram账户。至此配置就完成了。
 
-对于有自己的VPS的土豪，完全可以将其部署在自己的VPS上，不过因为本应用用到了Leancloud的储存相关APi，所以还是得注册个LeanCloud帐号。。参见经济型
+
 
 
 #### 参数说明
@@ -59,5 +56,5 @@
 
 ### TODO-LIST
 
- - 不需要绑定Telegram Chat id的定向推送
- - 实现在机器人聊天内回复
+- 不需要绑定Telegram Chat id的定向推送
+- 实现在机器人聊天内回复
