@@ -1,0 +1,19 @@
+
+use_yml: True     #true启用yaml配置否则使用环境变量
+
+host: https://doublemine.github.io               #博客的域名
+
+#Telegram 相关配置
+
+telegram:
+  bot_token:        #机器人Token
+  bot_url:          #WebHook对回调URL地址
+  bot_name:         #机器人名字（总是以@开头以bot结尾
+
+#多说相关配置
+
+duoshuo:
+  id:               #多说的用户id  获取该id参考 http://www.isiyuan.net/?post=43
+  short_name:       #多说的用户名
+  secret:           #多说的秘钥
+

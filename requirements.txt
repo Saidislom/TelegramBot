@@ -1,3 +1,4 @@
+yaml
 Flask>=0.10.1
 leancloud-sdk>=1.0.9
 python-telegram-bot
